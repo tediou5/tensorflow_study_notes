@@ -83,7 +83,7 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
 它组合了遗忘门和输入门到一个单独的“更新门”中. 它也合并了cell state和hidden state，并且做了一些其他的改变. 结果模型比标准LSTM模型更简单. 
 
-![GRU](C:\Users\MonkeyQuake\Desktop\RNN-LSTM-GRU\GRU.png)
+![GRU](.\GRU.png)
 
 首先介绍GRU的两个门，分别是`reset gate` ![[公式]](https://www.zhihu.com/equation?tex=r_t) 和`update gate` ![[公式]](https://www.zhihu.com/equation?tex=z_t) ，计算方法和LSTM中门的计算方法一致：
 
@@ -111,7 +111,7 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
 - 一般最后一层用False，中间层用True
 
-### 销售量GRU模型
+### Sell_GRU模型设计
 
 ##### 模型结构
 
@@ -142,22 +142,26 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
     - ht: 上层GRU_CELL的输出
     - hdp: is predict day holiday
     - wp: weather on predict day
+  
+  
+- Sell_GRU_Cell
 
-- 
+  ![Sell_GRU](Sell_GRU.png)
 
-- $$
-  z_t=	\delta(W_{zs}X_t[0]\ +\ W_{zh}X_t[1]\ +\ W_{zw}X_t[2]\ +\ U_zh_{t-1})
-  $$
+  - $$
+    z_t=	\delta(W_{zs}X_t[0]\ +\ W_{zh}X_t[1]\ +\ W_{zw}X_t[2]\ +\ U_zh_{t-1})
+    $$
 
-- $$
-  r_t=\delta(W_{rs}X_t[0]\ +\ W_{rh}X_t[1]\ +\ W_{rw}X_t[2]\ +\ U_rh_{t-1})
-  $$
+  - $$
+    r_t=\delta(W_{rs}X_t[0]\ +\ W_{rh}X_t[1]\ +\ W_{rw}X_t[2]\ +\ U_rh_{t-1})
+    $$
 
-- $$
-  \hat h=tanh(W_{s}X_t[0]\ +\ W_{h}X_t[1]\ +\ W_{w}X_t[2]\ +\ r_tUh_{t-1})
-  $$
+  - $$
+    \hat h=tanh(W_{s}X_t[0]\ +\ W_{h}X_t[1]\ +\ W_{w}X_t[2]\ +\ r_tUh_{t-1})
+    $$
 
-- $$
-  h_t=(1-z_t)\ast h_{t-1} + z_t \ast \hat h_t
-  $$
+  - $$
+    h_t=(1-z_t)\ast h_{t-1} + z_t \ast \hat h_t
+    $$
 
+  
