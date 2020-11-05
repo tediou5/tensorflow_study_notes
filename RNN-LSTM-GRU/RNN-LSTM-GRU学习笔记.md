@@ -143,7 +143,6 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
     - hdp: is predict day holiday
     - wp: weather on predict day
   
-  
 - Sell_GRU_Cell
 
   ![Sell_GRU](Sell_GRU.png)
