@@ -25,13 +25,13 @@ date: 2020 - 11 - 3
 
 ##### 基本模块
 
-![LSTM框架](.\LSTM框架.png)
+![LSTM框架](.\resources\LSTM框架.png)
 
 LSTM中每个循环单元包含四个神经网络层, 并且他们都以非常简单的方式起作用.
 
 ##### 核心思想
 
-![LSTM核心思想](.\LSTM核心思想.png)
+![LSTM核心思想](.\resources\LSTM核心思想.png)
 
 LSTM的关键之处在于cell的状态, 也就是贯穿顶部的水平线. cell的状态像是一条传送带, 他贯穿整条链, 其中只发生一些小的线性作用. 信息流经过这条线而不改变是非常容易的.
 
@@ -45,7 +45,7 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
   LSTM中的第一步是决定我们从细胞状态中丢弃什么信息. 这个决定通过 '遗忘门'完成. 该门会读取 h_(t-1) 和 x_t, 输出一个0到1之间的数值给每个在细胞状态 C__(t-1)中的数字,  1表示“完全保留”，0 表示“完全舍弃”
 
-  ![LSTM遗忘门](.\LSTM遗忘门.jpg)
+  ![LSTM遗忘门](.\resources\LSTM遗忘门.jpg)
 
   > 其中h_(t−1)表示的是上一个cell的输出，x_t表示的是当前细胞的输入。σ表示sigmod函数。
 
@@ -61,21 +61,21 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
     > 生成一个向量, 也就是备选的用来更新的内容
 
-  ![LSTM输入门](.\LSTM输入门.png)
+  ![LSTM输入门](.\resources\LSTM输入门.png)
 
   现在是更新旧细胞状态的时间了, C_(t-1)
 
-  ![更新Cell_State](.\更新Cell_State.png)
+  ![更新Cell_State](.\resources\更新Cell_State.png)
 
 - 输出门
 
   最终, 我们需要确定输出什么值. 这个输出将会基于我们的细胞状态, 但是也是一个过滤后的版本. 首先, 我们运行一个sigmod层来确定细胞状态和哪个部分将输出出去. 接着, 我们把细胞状态通过tanh进行处理(得到 -1 到 1 之间的值)并将他和sigmod门的输出相乘, 最终我们仅仅会输出我们确定输出的那部分
 
-  ![最终输出](.\最终输出.png)
+  ![最终输出](.\resources\最终输出.png)
 
 - 总结
 
-  ![LSTM综述](.\LSTM综述.png)
+  ![LSTM综述](.\resources\LSTM综述.png)
 
 ### GRU理解(Gated Recurrent Unit)
 
@@ -83,19 +83,19 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
 它组合了遗忘门和输入门到一个单独的“更新门”中. 它也合并了cell state和hidden state，并且做了一些其他的改变. 结果模型比标准LSTM模型更简单. 
 
-![GRU](.\GRU.png)
+![GRU](.\resources\GRU.png)
 
 首先介绍GRU的两个门，分别是`reset gate` ![[公式]](https://www.zhihu.com/equation?tex=r_t) 和`update gate` ![[公式]](https://www.zhihu.com/equation?tex=z_t) ，计算方法和LSTM中门的计算方法一致：
 
-![img](./v2-879243a8021092936ddd0ad4fc33af19_720w.jpg)
+![img](.\resources/v2-879243a8021092936ddd0ad4fc33af19_720w.jpg)
 
 然后是计算候选隐藏层（candidate hidden layer） ![[公式]](https://www.zhihu.com/equation?tex=%5Ctilde%7Bh%7D_t) ，这个候选隐藏层 和LSTM中的 ![[公式]](https://www.zhihu.com/equation?tex=%5Ctilde%7Bc%7D_t) 是类似，可以看成是当前时刻的新信息，其中 ![[公式]](https://www.zhihu.com/equation?tex=r_t) 用来控制需要 保留多少之前的记忆，比如如果 ![[公式]](https://www.zhihu.com/equation?tex=r_t) 为0，那么 ![[公式]](https://www.zhihu.com/equation?tex=%5Ctilde%7Bh%7D_t) 只包含当前词的信息：
 
-![img](./v2-c6865af4c2a03a286fb45d16ae537473_720w.jpg)
+![img](.\resources/v2-c6865af4c2a03a286fb45d16ae537473_720w.jpg)
 
 最后 ![[公式]](https://www.zhihu.com/equation?tex=z_t) 控制需要从前一时刻的隐藏层 ![[公式]](https://www.zhihu.com/equation?tex=h_%7Bt%E2%88%921%7D) 中遗忘多少信息，需要加入多少当前 时刻的隐藏层信息 ![[公式]](https://www.zhihu.com/equation?tex=%5Ctilde%7Bh%7D_t) ，最后得到 ![[公式]](https://www.zhihu.com/equation?tex=h_t) ，直接得到最后输出的隐藏层信息， 需要注意这里与LSTM的区别是GRU中没有output gate：
 
-![img](./v2-e0a333f9f11e0b4c762d14c4e7d01fc7_720w.jpg)
+![img](.\resources/v2-e0a333f9f11e0b4c762d14c4e7d01fc7_720w.jpg)
 
 > 一般来说那些具有短距离依赖的单元`reset gate`比较活跃（如果 ![[公式]](https://www.zhihu.com/equation?tex=r_t) 为1，而 ![[公式]](https://www.zhihu.com/equation?tex=z_t) 为0 那么相当于变成了一个标准的RNN，能处理短距离依赖），具有长距离依赖的单元`update gate`比较活跃。
 
@@ -115,7 +115,7 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
 
 ##### 模型结构
 
-![sell_GRU网络模型](sell_GRU网络模型.png)
+![sell_GRU网络模型](.\resources\sell_GRU网络模型.png)
 
 ##### 变量及公式定义
 
@@ -145,7 +145,7 @@ sigmod层输出[0, 1]区间内的数，描述了每个部分中应该通过的�
   
 - Sell_GRU_Cell
 
-  ![Sell_GRU](Sell_GRU.png)
+  ![Sell_GRU](.\resources\Sell_GRU.png)
 
   - $$
     z_t=	\delta(W_{zs}X_t[0]\ +\ W_{zh}X_t[1]\ +\ W_{zw}X_t[2]\ +\ U_zh_{t-1})
